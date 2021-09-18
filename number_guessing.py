@@ -8,6 +8,7 @@ active = True
 
 while active:
     user_mode = input("Pick a mode 'easy, 'medium', or 'hard': ")
+    user_mode = user_mode.strip()
     if user_mode in ('easy', 'Easy'):
         user_easy = input("choose a number between 1 and 10: ")
         user_easy = int(float(user_easy))
