@@ -41,11 +41,11 @@ while active:
                 number_tries = 1
                 active = False
                 # play again ----
-                play_again = input("\nwould you like to play again? y/n: ")
-                if play_again in ('y', 'yes', 'Yes'):
-                    active = True
-                    number_easy = random.randint(1, 10)
-                else:
+            play_again = input("\nwould you like to play again? y/n: ")
+            if play_again in ('y', 'yes', 'Yes'):
+                active = True
+                number_easy = random.randint(1, 10)
+            else:
                     active = False
     # medium mode config ----
     elif user_mode in ('medium', 'Medium'):
@@ -119,9 +119,9 @@ while active:
                 number_tries = 1
                 active = False
             # play again ----
-                play_again = input("\nwould you like to play again? y/n: ")
-                if play_again in ('y', 'yes', 'Yes'):
-                    active = True
-                    number_hard = random.randint(1, 100)
-                else:
-                    active = False
+            play_again = input("\nwould you like to play again? y/n: ")
+            if play_again in ('y', 'yes', 'Yes'):
+                active = True
+                number_hard = random.randint(1, 100)
+            else:
+                active = False
