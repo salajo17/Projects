@@ -1,0 +1,58 @@
+class Bowling:
+    def __init__(self):
+        self.frame = 0
+        self.current_player = 0
+
+    # Setting up how many players there are
+    def set_up_players(self):
+        global score_list
+        if len(list(dictionary)) <= 0:
+            amount_of_players = int(input("How many players are going to be joining us?: (Maximum of 5)"))
+            if 0 < amount_of_players <= 5:
+                for i in range(amount_of_players):
+                    dictionary[f'Player {i + 1}'] = dictionary
+                score_list = [[0]*10] * amount_of_players
+                print(score_list)
+                bowling.calculate()
+            else:
+                print('Amount needs to be larger than 0 and smaller than 6, re-enter: \n')
+
+    # Shows the scoreboard
+    def score_board(self):
+        print(dictionary)
+        bowling.player_switch()
+
+    # Calculate the score
+    def calculate(self):
+        score = int(input("How many did it knocked out?"))
+        keys_list = list(dictionary)
+        key_current = keys_list[self.current_player]
+        for key in dictionary.keys():
+            if key_current == key:
+                dictionary[key] = score
+        print(self.current_player, self.frame)
+        for values in score_list:
+            print(values[0])
+        print(score_list)
+        bowling.score_board()
+
+    # Switch to the next player
+    def player_switch(self):
+        #print(self.current_player)
+
+        # checking for out of range
+        print(self.current_player)
+        if self.current_player + 1 == len(list(dictionary)):
+            self.current_player = 0
+            self.frame += 1
+            print(self.current_player, 'reset')
+        elif self.current_player + 1 != len(list(dictionary)):
+            self.current_player += 1
+            print(self.current_player)
+        bowling.calculate()
+
+
+score_list = []
+dictionary = {}
+bowling = Bowling()
+bowling.set_up_players()
