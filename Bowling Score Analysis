@@ -1,0 +1,115 @@
+class Bowling:
+    def __init__(self):
+        self.frame = 1
+        self.current_player = 0
+
+    # Setting up how many players there are
+    def set_up_players(self):
+        global score_list
+        if len(list(dictionary)) <= 0:
+            while True:
+                try:
+                    amount_of_players = int(input("How many players are going to be joining us?: (Maximum of 5)"))
+                    if 0 < amount_of_players <= 5:
+                        for i in range(amount_of_players):
+                            dictionary[f'Player {i + 1}'] = dictionary
+                        score_list = [[[[0] for _ in range(2)] for _ in range(10)] for _ in range(amount_of_players)]
+                        break
+                    else:
+                        print('Amount needs to be larger than 0 and smaller than 6, re-enter: \n')
+                except ValueError:
+                    print('Needs to be a number')
+        bowling.calculate()
+
+    # Calculate the score
+    def calculate(self):
+        global keys_list
+        keys_list = list(dictionary)
+        key_current = keys_list[self.current_player]
+        print(f"\nIt's {key_current} turned")
+        while True:
+            try:
+                first_score = int(input("How many pins did you knocked out on the first try?"))
+                while True:
+                    if 0 <= first_score <= 10:
+                        break
+                    else:
+                        print('needs to be a number between 0 and 10 silly!')
+                        first_score = int(input("How many pins did you knocked out on the first try?"))
+                if first_score != 10:
+                    try:
+                        second_score = int(input("How many pins did you knocked out on the second try?"))
+                        while True:
+                            if first_score + second_score <= 10:
+                                break
+                            else:
+                                print(f'needs to be a number between 0 and {10 - first_score}!')
+                                second_score = int(input("How many pins did you knocked out on the second try?"))
+                        break
+                    except ValueError:
+                        print('Needs to be a number')
+                else:
+                    first_score = 'X'
+                    break
+            except ValueError:
+                print('Needs to be a number')
+        print(self.current_player, self.frame)
+        if first_score != 'X':
+            # [Players][Frame][First_throw or Second_throw]
+            if first_score + second_score == 10:
+                score_list[self.current_player][self.frame - 1][0] = first_score
+                score_list[self.current_player][self.frame - 1][1] = '/'
+            else:
+                score_list[self.current_player][self.frame - 1][0] = first_score
+                score_list[self.current_player][self.frame - 1][1] = second_score
+        else:
+            score_list[self.current_player][self.frame - 1] = [first_score]
+        print(score_list[self.current_player])
+
+        bowling.player_switch()
+
+        # loop through the dictionary and find the key, value
+
+       # for key in dictionary.keys():
+            # if key_current == key:
+                # dictionary[key] = final_score
+
+    def player_switch(self):
+        # checking for out of range
+        print(self.current_player)
+        if self.current_player + 1 == len(list(dictionary)):
+            self.current_player = 0
+            if self.frame != 10:
+                self.frame += 1
+            else:
+                bowling.score_board()
+            print(f'Frame {self.frame}')
+        elif self.current_player + 1 != len(list(dictionary)):
+            self.current_player += 1
+        bowling.calculate()
+
+    # Shows the scoreboard
+    def score_board(self):
+        global dictionary
+        global score_list
+        print()
+        for i in range(len(list(dictionary))):
+            print(keys_list[i])
+            print(f'{score_list[i]}\n')
+        print(dictionary)
+        restart = input("Would you like to analyze another game? Y or N: ")
+        if restart.strip().lower() == 'y' or restart.strip().lower() == 'yes':
+            self.current_player = 0
+            self.frame = 1
+            dictionary = {}
+            score_list = []
+            bowling.set_up_players()
+        else:
+            quit()
+
+
+score_list = []
+dictionary = {}
+keys_list = list(dictionary)
+bowling = Bowling()
+bowling.set_up_players()
