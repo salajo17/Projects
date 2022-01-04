@@ -3,7 +3,6 @@ class Bowling:
         self.frame = 1
         self.current_player = 0
 
-    # Setting up how many players there are
     def set_up_players(self):
         global score_list
         if len(list(dictionary)) <= 0:
@@ -21,12 +20,11 @@ class Bowling:
                     print('Needs to be a number')
         bowling.calculate()
 
-    # Calculate the score
     def calculate(self):
         global keys_list
         keys_list = list(dictionary)
         key_current = keys_list[self.current_player]
-        print(f"\nIt's {key_current} turned")
+        print(f"\nIt's {key_current} turned to bowl")
         while True:
             try:
                 first_score = int(input("How many pins did you knocked out on the first try?"))
@@ -53,9 +51,7 @@ class Bowling:
                     break
             except ValueError:
                 print('Needs to be a number')
-        print(self.current_player, self.frame)
         if first_score != 'X':
-            # [Players][Frame][First_throw or Second_throw]
             if first_score + second_score == 10:
                 score_list[self.current_player][self.frame - 1][0] = first_score
                 score_list[self.current_player][self.frame - 1][1] = '/'
@@ -65,17 +61,9 @@ class Bowling:
         else:
             score_list[self.current_player][self.frame - 1] = [first_score]
         print(score_list[self.current_player])
-
         bowling.player_switch()
 
-        # loop through the dictionary and find the key, value
-
-       # for key in dictionary.keys():
-            # if key_current == key:
-                # dictionary[key] = final_score
-
     def player_switch(self):
-        # checking for out of range
         print(self.current_player)
         if self.current_player + 1 == len(list(dictionary)):
             self.current_player = 0
@@ -88,14 +76,59 @@ class Bowling:
             self.current_player += 1
         bowling.calculate()
 
-    # Shows the scoreboard
     def score_board(self):
         global dictionary
         global score_list
         print()
+        total_score = 0
+        strikes = 0
+        for i in range(len(score_list)):
+            for j in range(len(score_list[i])):
+                if strikes <= 1:
+                    strikes = 0
+                    if score_list[i][j][0] == 'X' and j < 10:
+                        for x in range((10-j)-1):
+                            if score_list[i][j+x][0] == 'X':
+                                strikes += 1
+                                continue
+                            else:
+                                break
+                        if strikes == 1:
+                            if score_list[i][(strikes-2) + (j+2)][1] == '/':
+                                total_score += 20
+                            else:
+                                total_score += 10 + score_list[i][j+1][0] + score_list[i][j+1][1]
+                        elif strikes == 2:
+                            total_score += 20 + score_list[i][j+2][0]
+                            if score_list[i][j+2][1] == '/':
+                                total_score += 20
+                            else:
+                                total_score += 10 + score_list[i][j+2][0] + score_list[i][j+2][1]
+                        elif strikes >= 3:
+                            total_score += (strikes - 2) * 30
+                            total_score += 20 + score_list[i][(strikes-2) + (j+2)][0]
+                            if score_list[i][(strikes-2) + (j+2)][1] == '/':
+                                total_score += 10
+                            else:
+                                total_score += 10 + ((score_list[i][(strikes-2) + (j+2)][0]) +
+                                                     score_list[i][(strikes-2) + (j+2)][1])
+                    elif score_list[i][j][1] == '/':
+                        if score_list[i][j+1][0] == 'X':
+                            total_score += 20
+                        else:
+                            total_score += 10 + score_list[i][j+1][0]
+                    else:
+                        total_score += score_list[i][j][0] + score_list[i][j][1]
+                else:
+                    strikes -= 1
+            for key in dictionary.keys():
+                if key == keys_list[i]:
+                    dictionary[key] = total_score
+            total_score = 0
         for i in range(len(list(dictionary))):
-            print(keys_list[i])
-            print(f'{score_list[i]}\n')
+            for key, value in dictionary.items():
+                if key == keys_list[i]:
+                    print(f'{key}\n{score_list[i]} = {value}\n')
         print(dictionary)
         restart = input("Would you like to analyze another game? Y or N: ")
         if restart.strip().lower() == 'y' or restart.strip().lower() == 'yes':
