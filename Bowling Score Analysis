@@ -36,52 +36,59 @@ class Bowling:
                         print('needs to be a number between 0 and 10 silly!')
                         first_score = int(input("How many pins did you knocked out on the first try?"))
                 if self.frame == 10 and first_score == 10:
-                    print('frame10...')
                     global frame_score
                     frame_score = 0
                     first_score = 'X'
-                    try:
-                        second_score = int(input("How many pins did you knocked out on the second try?"))
+                    while True:
                         try:
-                            third_score = int(input("How many pins did you knocked out on the third try?"))
-                            if second_score != 10:
-                                while True:
-                                    if second_score + third_score <= 10:
+                            second_score = int(input("How many pins did you knocked out on the second try?"))
+                            if 0 <= second_score <= 10:
+                                try:
+                                    third_score = int(input("How many pins did you knocked out on the third try?"))
+                                    if 0 <= third_score <= 10:
                                         break
                                     else:
-                                        print(f'needs to be a number between 0 and {10 - second_score}!')
-                                        third_score = int(input("How many pins did you knocked out on the"
-                                                                " third try?"))
-                                frame_score += second_score + third_score
+                                        print('Number needs to be between 1-10')
+                                    # ----------------------------------------------------------------------------------
+                                except ValueError:
+                                    print('Needs to be a number')
                             else:
-                                second_score = 'X'
-                                frame_score += 10
-                                if third_score == 10:
-                                    third_score = 'X'
-                                    frame_score += 10
-                                else:
-                                    frame_score += third_score
-                            frame_score += 10
-                            break
+                                print('Number needs to be between 1-10')
                         except ValueError:
                             print('Needs to be a number')
-                    except ValueError:
-                        print('Needs to be a number')
-
+                    if second_score != 10:
+                        while True:
+                            if second_score + third_score <= 10:
+                                break
+                            else:
+                                print(f'needs to be a number between 0 and {10 - second_score}!')
+                                third_score = int(input("How many pins did you knocked out on the"
+                                                        " third try?"))
+                        frame_score += second_score + third_score
+                    else:
+                        second_score = 'X'
+                        frame_score += 10
+                        if third_score == 10:
+                            third_score = 'X'
+                            frame_score += 10
+                        else:
+                            frame_score += third_score
+                    frame_score += 10
+                    break
                 if first_score != 10:
-                    print('not frame10...')
                     try:
                         second_score = int(input("How many pins did you knocked out on the second try?"))
                         while True:
                             if first_score + second_score <= 10:
                                 if self.frame == 10:
-                                    while True:
-                                        third_score = int(input("How many pins did you knocked out on the third try?"))
-                                        if 0 <= third_score < 10:
-                                            frame_score = third_score
-                                            break
-                                        else:
-                                            print(f'Your score can\'t\' be greater than 9')
+                                    if first_score + second_score == 10:
+                                        while True:
+                                            third_score = int(input("How many pins did you knocked out on the third try?"))
+                                            if 0 <= third_score < 10:
+                                                frame_score = third_score
+                                                break
+                                            else:
+                                                print(f'Your score can\'t\' be greater than 9')
                                 break
                             else:
                                 print(f'needs to be a number between 0 and {10 - first_score}!')
@@ -89,6 +96,7 @@ class Bowling:
                         break
                     except ValueError:
                         print('Needs to be a number')
+                    print(frame_score, 'down2')
                 else:
                     first_score = 'X'
                     break
@@ -147,48 +155,68 @@ class Bowling:
                             else:
                                 break
                         if strikes == 1:
+                            print(total_score)
+                            if score_list[i][(strikes-2) + (j+2)][1] == '/':
+                                total_score += 20
+                            elif score_list[i][(strikes-2) + (j+2)][1] == 'X':
+                                total_score += 30
+                            elif score_list[i][(strikes-2) + (j+2)][0] == 'X':
+                                total_score += 20 + score_list[i][(strikes-2) + (j+2)][1]
+                            else:
+                                total_score += 10 + score_list[i][j+1][0] + score_list[i][j+1][1]
+                            print(total_score)
+                        elif strikes == 2:
+                            if score_list[i][(strikes-2) + (j+2)][0] != 'X':
+                                total_score += 20 + score_list[i][(strikes-2) + (j+2)][0]
+                            else:
+                                total_score += 50
                             if score_list[i][(strikes-2) + (j+2)][1] == '/':
                                 total_score += 20
                             elif score_list[i][(strikes-2) + (j+2)][1] == 'X':
                                 total_score += 10
                             else:
-                                total_score += 10 + score_list[i][j+1][0] + score_list[i][j+1][1]
-                        elif strikes == 2:
-                            total_score += 20 + score_list[i][j+2][0]
-                            if score_list[i][j+2][1] == '/':
-                                total_score += 20
-                            elif score_list[i][j+2][1] == 'X':
-                                total_score += 10
-                            else:
-                                total_score += 10 + score_list[i][j+2][0] + score_list[i][j+2][1]
+                                if score_list[i][j+2][0] != 'X':
+                                    total_score += 10 + score_list[i][j+2][0] + score_list[i][j+2][1]
+
                         elif strikes >= 3:
+                            print(total_score, 'before')
                             total_score += (strikes - 2) * 30
-                            if score_list[i][(strikes-2) + (j+2)][1] != 'X':
+                            print(total_score, 'after')
+                            # ------------------------------------------------------------------
+                            if score_list[i][(strikes-2) + (j+2)][0] != 'X':
                                 total_score += 20 + score_list[i][(strikes-2) + (j+2)][0]
+                                print(total_score, 'a2')
                             else:
-                                total_score += 60
+                                total_score += 50
+                                print(total_score, 'b2')
                             if score_list[i][(strikes-2) + (j+2)][1] == '/':
+                                total_score += 20
+                                print(total_score, 'c2')
+                            elif score_list[i][(strikes-2) + (j+2)][1] == 'X':
                                 total_score += 10
+                                print(total_score, 'd2')
                             else:
-                                if score_list[i][(strikes-2) + (j+2)][1] != 'X':
-                                    total_score += 10 + ((score_list[i][(strikes-2) + (j+2)][0]) +
-                                                         score_list[i][(strikes-2) + (j+2)][1])
+                                if score_list[i][(strikes-2) + (j+2)][0] != 'X' and\
+                                        score_list[i][(strikes-2) + (j+2)][1] != 'X':
+                                    total_score += 10 + score_list[i][(strikes-2) + (j+2)][0] +\
+                                                   score_list[i][(strikes-2) + (j+2)][1]
+                                    print(total_score, 'e2')
+
                     elif score_list[i][j][1] == '/' and j < 9:
-                        print(score_list[i][j][0])
                         if score_list[i][j+1][0] == 'X':
                             total_score += 20
                         else:
                             total_score += 10 + score_list[i][j+1][0]
-                    elif j >= 9:
-                        total_score += 10
                     else:
                         total_score += score_list[i][j][0] + score_list[i][j][1]
+                        print(total_score)
                 else:
                     strikes -= 1
             for key in dictionary.keys():
                 if key == keys_list[i]:
                     dictionary[key] = total_score + frame_score
             total_score = 0
+
         for i in range(len(list(dictionary))):
             for key, value in dictionary.items():
                 if key == keys_list[i]:
