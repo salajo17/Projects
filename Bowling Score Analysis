@@ -49,7 +49,6 @@ class Bowling:
                                         break
                                     else:
                                         print('Number needs to be between 1-10')
-                                    # ----------------------------------------------------------------------------------
                                 except ValueError:
                                     print('Needs to be a number')
                             else:
@@ -177,12 +176,10 @@ class Bowling:
                             else:
                                 if score_list[i][j+2][0] != 'X':
                                     total_score += 10 + score_list[i][j+2][0] + score_list[i][j+2][1]
-
                         elif strikes >= 3:
                             print(total_score, 'before')
                             total_score += (strikes - 2) * 30
                             print(total_score, 'after')
-                            # ------------------------------------------------------------------
                             if score_list[i][(strikes-2) + (j+2)][0] != 'X':
                                 total_score += 20 + score_list[i][(strikes-2) + (j+2)][0]
                                 print(total_score, 'a2')
@@ -201,7 +198,6 @@ class Bowling:
                                     total_score += 10 + score_list[i][(strikes-2) + (j+2)][0] +\
                                                    score_list[i][(strikes-2) + (j+2)][1]
                                     print(total_score, 'e2')
-
                     elif score_list[i][j][1] == '/' and j < 9:
                         if score_list[i][j+1][0] == 'X':
                             total_score += 20
@@ -216,7 +212,6 @@ class Bowling:
                 if key == keys_list[i]:
                     dictionary[key] = total_score + frame_score
             total_score = 0
-
         for i in range(len(list(dictionary))):
             for key, value in dictionary.items():
                 if key == keys_list[i]:
